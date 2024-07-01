@@ -1,7 +1,7 @@
 // This pipeline is for k8s deployments 
 
 import com.i27academy.builds.Docker
-import com.i27academy.k8s.K8s
+import com.i27academy.kubernetes.K8s
 
 def call(Map pipelineParams) {
     Docker docker = new Docker(this)
@@ -68,7 +68,7 @@ def call(Map pipelineParams) {
             stage ('Authentication') {
                 steps {
                     echo "Executing in GCP project"
-                    script{
+                    script {
                         k8s.auth_login()
                     }
                 }

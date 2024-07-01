@@ -63,7 +63,8 @@ def call(Map pipelineParams) {
             // This step will take care of building the application
             steps {
                 script {
-                    buildApp().call()
+                    // buildApp().call()
+                    docker.buildApp("${env.APPLICATION_NAME}")
                 }
             }
         }
@@ -218,10 +219,11 @@ def imageValidation() {
 def buildApp() {
     return {
          echo "Building the ${env.APPLICATION_NAME} Application"
-        //mvn command 
-        // sh 'mvn clean package -DskipTests=true'
-        // archiveArtifacts artifacts: 'target/*.jar'
-        docker.buildApp("${env.APPLICATION_NAME}")
+        mvn command 
+        sh 'mvn clean package -DskipTests=true'
+        archiveArtifacts artifacts: 'target/*.jar'
+        
+        
     }
 }
 

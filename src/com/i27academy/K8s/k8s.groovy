@@ -1,8 +1,8 @@
 package com.i27academy.k8s
 
-class k8s {
+class K8s {
     def jenkins
-    k8s(jenkins){
+    K8s(jenkins){
         this.jenkins = jenkins
     }
 
@@ -10,7 +10,7 @@ class k8s {
     def auth_login(){
         jenkins.sh """
         echo "Entering into kubernetes Authentication/login method"
-        gcloud auth activate-service-account jenkins@regal-cycling-424510-r6.iam.gserviceaccount.com --key-file=${gke_sa_json}
+        gcloud compute instances list
         """
     }
 }

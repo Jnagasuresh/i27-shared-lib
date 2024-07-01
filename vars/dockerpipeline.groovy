@@ -219,8 +219,9 @@ def buildApp() {
     return {
          echo "Building the ${env.APPLICATION_NAME} Application"
         //mvn command 
-        sh 'mvn clean package -DskipTests=true'
-        archiveArtifacts artifacts: 'target/*.jar'
+        // sh 'mvn clean package -DskipTests=true'
+        // archiveArtifacts artifacts: 'target/*.jar'
+        docker.buildApp("${env.APPLICATION_NAME}")
     }
 }
 

@@ -1,10 +1,12 @@
 // This pipeline is for k8s deployments 
+
 import com.i27academy.builds.Docker
-import com.i27academy.kubernetes.K8s
+import com.i27academy.k8s.K8s
 
 def call(Map pipelineParams) {
     Docker docker = new Docker(this)
     K8s k8s = new K8s(this)
+
     pipeline {
         agent {
             label 'k8s-slave'
@@ -67,7 +69,7 @@ def call(Map pipelineParams) {
                 steps {
                     echo "Executing in GCP project"
                     script{
-                        k8s.auth_login("${env.GKE_DEV_CLUSTER_NAME}", "${env.GKE_DEV_ZONE}", "${env.GKE_DEV_PROJECT}")
+                        k8s.auth_login()
                     }
                 }
             }

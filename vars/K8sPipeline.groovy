@@ -1,7 +1,7 @@
 // This pipeline is to implement K8s flow deployments
 // this jenkinsfile is for Eureka microservice
 import com.i27academy.builds.Docker
-import com.i27academy.K8s.K8s
+import com.i27academy.k8s.K8s
 
 def call(Map pipelineParams) {
     Docker docker = new Docker(this)

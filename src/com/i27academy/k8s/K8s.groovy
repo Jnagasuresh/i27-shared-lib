@@ -12,8 +12,4 @@ class K8s {
         sudo gcloud compute instances list        
         """
     }
-
 }
-# gcloud config set account jenkins@regal-cycling-424510-r6.iam.gserviceaccount.com
-#gcloud container clusters get-credentials cart-cluster --zone us-west1-a --project regal-cycling-424510-r6
-# gcloud auth activate-service-account jenkins@regal-cycling-424510-r6.iam.gserviceaccount.com --key-file=key.json

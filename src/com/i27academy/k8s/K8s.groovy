@@ -9,7 +9,7 @@ class K8s {
     def auth_login(){
         jenkins.sh """
         echo "Entering into Kubernetes Authentication/Login Method"
-        gcloud compute instaces list
+        gcloud compute instances list
         """
     }
 

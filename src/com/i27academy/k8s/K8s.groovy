@@ -16,4 +16,13 @@ class K8s {
         sudo kubectl get nodes
         """
     }
+
+    // Kubernetes Deployment
+    def k8sdeploy(fileName, namespace){
+        jenkins.sh """
+        echo "Executing K8s deploy method"
+        sudo kubectl apply -f ./.cicd/$fileName -n $namespace
+        """
+    }
+
 }

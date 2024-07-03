@@ -55,6 +55,9 @@ def call(Map pipelineParams) {
         GKE_DEV_CLUSTER_NAME = "cart-cluster"
         GKE_DEV_ZONE = "us-west1-a"
         GKE_DEV_PROJECT = "regal-cycling-424510-r6"
+        K8S_DEV_FILE = "k8s_dev.yaml"
+        K8S_TST_FILE = "k8s_tst.yaml"
+        DEV_NAMESPACE = "cart-dev-ns"
     }
     stages {
         stage ('Authentication'){
@@ -140,7 +143,10 @@ def call(Map pipelineParams) {
              steps {
                 script {
                     imageValidation().call()
-                    dockerDeploy('dev','5761', '8761').call()
+                    echo "Kubernetes deployment started!!"
+                    k8s.auth_login("${env.GKE_DEV_CLUSTER_NAME}","${env.GKE_DEV_ZONE}","${env.GKE_DEV_PROJECT}")
+                    k8s.k8sdeploy("${env.K8S_DEV_FILE}", "${env.DEV_NAMESPACE}")
+                    // dockerDeploy('dev','5761', '8761').call()
                     echo "deployed to dev environment!!"
                 }
              }

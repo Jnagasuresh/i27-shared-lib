@@ -52,13 +52,16 @@ def call(Map pipelineParams) {
         SONAR_TOKEN = credentials('sonar_creds')
         DOCKER_HUB ="docker.io/jnagasuresh"
         DOCKER_CREDS = credentials('docker_creds')
+        GKE_DEV_CLUSTER_NAME = "cart-cluster"
+        GKE_DEV_ZONE = "us-west1-a"
+        GKE_DEV_PROJECT = "regal-cycling-424510-r6"
     }
     stages {
         stage ('Authentication'){
            steps {
             echo "Executing Gcp project"
             script {
-                k8s.auth_login()
+                k8s.auth_login("env.GKE_DEV_CLUSTER_NAME","env.GKE_DEV_ZONE","env.GKE_DEV_PROJECT")
             }
            }
         }

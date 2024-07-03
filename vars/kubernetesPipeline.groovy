@@ -57,6 +57,8 @@ def call(Map pipelineParams) {
         GKE_DEV_PROJECT = "regal-cycling-424510-r6"
         K8S_DEV_FILE = "k8s_dev.yaml"
         K8S_TST_FILE = "k8s_tst.yaml"
+        K8S_STG_FILE = "k8s_stg.yaml"
+        K8S_PROD_FILE = "k8s_prod.yaml"
         DEV_NAMESPACE = "cart-dev-ns"
         TST_NAMESPACE = "cart-tst-ns"
         STG_NAMESPACE = "cart-stg-ns"
@@ -174,7 +176,7 @@ def call(Map pipelineParams) {
                     def docker_image = "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:${GIT_COMMIT}"
                     echo "Kubernetes deployment started!!"
                     k8s.auth_login("${env.GKE_DEV_CLUSTER_NAME}","${env.GKE_DEV_ZONE}","${env.GKE_DEV_PROJECT}")
-                    k8s.k8sdeploy("${env.K8S_DEV_FILE}", "${env.TST_NAMESPACE}", docker_image)
+                    k8s.k8sdeploy("${env.K8S_TST_FILE}", "${env.TST_NAMESPACE}", docker_image)
                     // dockerDeploy('dev','5761', '8761').call()
                     echo "deployed to Test environment!!"
                 }
@@ -199,7 +201,7 @@ def call(Map pipelineParams) {
                     def docker_image = "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:${GIT_COMMIT}"
                     echo "Kubernetes deployment started!!"
                     k8s.auth_login("${env.GKE_DEV_CLUSTER_NAME}","${env.GKE_DEV_ZONE}","${env.GKE_DEV_PROJECT}")
-                    k8s.k8sdeploy("${env.K8S_DEV_FILE}", "${env.STG_NAMESPACE}", docker_image)
+                    k8s.k8sdeploy("${env.K8S_STG_FILE}", "${env.STG_NAMESPACE}", docker_image)
                     // dockerDeploy('dev','5761', '8761').call()
                     echo "deployed to Stage environment!!"
                 }
@@ -234,7 +236,7 @@ def call(Map pipelineParams) {
                     def docker_image = "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:${GIT_COMMIT}"
                     echo "Kubernetes deployment started!!"
                     k8s.auth_login("${env.GKE_DEV_CLUSTER_NAME}","${env.GKE_DEV_ZONE}","${env.GKE_DEV_PROJECT}")
-                    k8s.k8sdeploy("${env.K8S_DEV_FILE}", "${env.PROD_NAMESPACE}", docker_image)
+                    k8s.k8sdeploy("${env.K8S_PROD_FILE}", "${env.PROD_NAMESPACE}", docker_image)
                     // dockerDeploy('dev','5761', '8761').call()
                     echo "deployed to Prod environment!!"
                 }

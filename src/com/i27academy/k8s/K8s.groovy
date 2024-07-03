@@ -18,9 +18,10 @@ class K8s {
     }
 
     // Kubernetes Deployment
-    def k8sdeploy(fileName, namespace){
+    def k8sdeploy(fileName, namespace, docker_image){
         jenkins.sh """
         echo "Executing K8s deploy method"
+        sed -i "s|DIT|${docker_image}|g" ./.cicd/$fileName
         sudo kubectl apply -f ./.cicd/$fileName -n $namespace
         """
     }

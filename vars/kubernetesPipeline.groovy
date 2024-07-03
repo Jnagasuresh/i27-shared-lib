@@ -60,14 +60,14 @@ def call(Map pipelineParams) {
         DEV_NAMESPACE = "cart-dev-ns"
     }
     stages {
-        stage ('Authentication'){
-           steps {
-            echo "Executing Gcp project"
-            script {
-                k8s.auth_login("${env.GKE_DEV_CLUSTER_NAME}","${env.GKE_DEV_ZONE}","${env.GKE_DEV_PROJECT}")
-            }
-           }
-        }
+        // stage ('Authentication'){
+        //    steps {
+        //     echo "Executing Gcp project"
+        //     script {
+        //         k8s.auth_login("${env.GKE_DEV_CLUSTER_NAME}","${env.GKE_DEV_ZONE}","${env.GKE_DEV_PROJECT}")
+        //     }
+        //    }
+        // }
         stage ('Build') {
             when {
                 anyOf {

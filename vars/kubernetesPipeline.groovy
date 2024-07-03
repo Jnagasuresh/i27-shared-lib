@@ -58,6 +58,9 @@ def call(Map pipelineParams) {
         K8S_DEV_FILE = "k8s_dev.yaml"
         K8S_TST_FILE = "k8s_tst.yaml"
         DEV_NAMESPACE = "cart-dev-ns"
+        TST_NAMESPACE = "cart-tst-ns"
+        STG_NAMESPACE = "cart-stg-ns"
+        PROD_NAMESPACE = "cart-prod-ns"
     }
     stages {
         // stage ('Authentication'){
@@ -164,9 +167,16 @@ def call(Map pipelineParams) {
                 }
              steps {
                 script {
-                    imageValidation().call()
-                    dockerDeploy('test','6761', '8761').call()
-                    echo "deployed to test environment successfull!!"
+                    // imageValidation().call()
+                    // dockerDeploy('test','6761', '8761').call()
+                    // echo "deployed to test environment successfull!!"
+                     imageValidation().call()
+                    def docker_image = "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:${GIT_COMMIT}"
+                    echo "Kubernetes deployment started!!"
+                    k8s.auth_login("${env.GKE_DEV_CLUSTER_NAME}","${env.GKE_DEV_ZONE}","${env.GKE_DEV_PROJECT}")
+                    k8s.k8sdeploy("${env.K8S_DEV_FILE}", "${env.TST_NAMESPACE}", docker_image)
+                    // dockerDeploy('dev','5761', '8761').call()
+                    echo "deployed to Test environment!!"
                 }
              }
             
@@ -182,9 +192,16 @@ def call(Map pipelineParams) {
                 }
              steps {
                 script {
-                    imageValidation().call()
-                    dockerDeploy('stage','7761', '8761').call()
-                    echo "deployed to stage environment successfull!!"
+                    // imageValidation().call()
+                    // dockerDeploy('stage','7761', '8761').call()
+                    // echo "deployed to stage environment successfull!!"
+                     imageValidation().call()
+                    def docker_image = "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:${GIT_COMMIT}"
+                    echo "Kubernetes deployment started!!"
+                    k8s.auth_login("${env.GKE_DEV_CLUSTER_NAME}","${env.GKE_DEV_ZONE}","${env.GKE_DEV_PROJECT}")
+                    k8s.k8sdeploy("${env.K8S_DEV_FILE}", "${env.STG_NAMESPACE}", docker_image)
+                    // dockerDeploy('dev','5761', '8761').call()
+                    echo "deployed to Stage environment!!"
                 }
              }
         }
@@ -210,9 +227,16 @@ def call(Map pipelineParams) {
                     input message: "Deploying to ${env.APPLICATION_NAME} TO production ???", ok: 'yes', submitter: 'mat'
                 }
                 script {
-                    imageValidation().call()
-                    dockerDeploy('stage','8761', '8761').call()
-                    echo "deployed to Prod environment successfull!!"
+                    // imageValidation().call()
+                    // dockerDeploy('stage','8761', '8761').call()
+                    // echo "deployed to Prod environment successfull!!"
+                     imageValidation().call()
+                    def docker_image = "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:${GIT_COMMIT}"
+                    echo "Kubernetes deployment started!!"
+                    k8s.auth_login("${env.GKE_DEV_CLUSTER_NAME}","${env.GKE_DEV_ZONE}","${env.GKE_DEV_PROJECT}")
+                    k8s.k8sdeploy("${env.K8S_DEV_FILE}", "${env.PROD_NAMESPACE}", docker_image)
+                    // dockerDeploy('dev','5761', '8761').call()
+                    echo "deployed to Prod environment!!"
                 }
              }
         }

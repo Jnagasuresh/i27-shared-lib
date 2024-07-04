@@ -1,0 +1,19 @@
+# Create manifest file for Eureka Deployment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.fullname }} # i27-eureka-dev
+spec:
+  replicas: {{.Values.replicas.default}} #1
+  selector:
+    matchLabels:
+      name: {{ .Values.name }} #i27-eureka-dev
+  template:
+    metadata:
+      labels:
+        name: {{ .Values.name }} #i27-eureka-dev
+    spec:
+      containers:
+        - image:  #DIT
+          name: {{ .Values.name }} #i27-eureka-dev

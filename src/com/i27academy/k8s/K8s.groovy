@@ -32,7 +32,7 @@ class K8s {
         echo "********************** Executing Helm Groovy Method*****************"
         sudo helm version
         echo " Verify if Chart already exists---------"
-        if helm lsit | grep -q "${appName}-${env}-chart"; then
+        if helm list | grep -q "${appName}-${env}-chart"; then
             echo "This Chart already exists"
             echo " Upgrading the chart !!!!"
             sudo helm upgrade ${appName}-${env}-chart -f ./.cicd/k8s/values_${env}.yaml --set image.tag=${imageTag} ${helmChartPath}

@@ -10,6 +10,7 @@ def call(Map pipelineParams) {
         label 'k8s-slave'
     }
     parameters {
+        
         choice (name: 'buildonly',
                 choices: 'no\nyes',
                 description: "build the applicaiton only"
@@ -81,7 +82,7 @@ def call(Map pipelineParams) {
             steps {
                 println("Checkout: cloning the repo for i27Shared Library ******************")
                 script {
-                    cleanWs()
+                    //cleanWs()
                     k8s.gitClone()
                 }
             }

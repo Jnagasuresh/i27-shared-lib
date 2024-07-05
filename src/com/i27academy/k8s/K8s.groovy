@@ -32,7 +32,7 @@ class K8s {
         echo "********************** Executing Helm Groovy Method*****************"
         sudo helm version
         echo "********************** Installing the chart*****************"
-        sudo helm install ${appName}-${env}-chart ${helmChartPath} -f ./.cicd/k8s/values_${env}.yaml --set image.tag= ${imageTag} ${helmChartPath}
+        sudo helm install ${appName}-${env}-chart -f ./.cicd/k8s/values_${env}.yaml --set image.tag=${imageTag} ${helmChartPath}
         """
     }
 

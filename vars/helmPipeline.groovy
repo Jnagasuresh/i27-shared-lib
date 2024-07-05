@@ -81,6 +81,7 @@ def call(Map pipelineParams) {
             steps {
                 println("Checkout: cloning the repo for i27Shared Library ******************")
                 script {
+                    cleanWs()
                     k8s.gitClone()
                 }
             }
@@ -97,7 +98,7 @@ def call(Map pipelineParams) {
             steps {
                 script {
                     // buildApp().call()
-                    k8s.gitClone()
+                    //k8s.gitClone()
                     docker.buildApp("${env.APPLICATION_NAME}")
                 }
             }

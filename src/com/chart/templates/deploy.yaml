@@ -4,6 +4,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.fullname }} # i27-eureka-dev
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: {{.Values.replicas.default}} #1
   selector:
@@ -15,5 +16,5 @@ spec:
         name: {{ .Values.name }} #i27-eureka-dev
     spec:
       containers:
-        - image:  #DIT
+        - image:  "{{ .Values.image.name }}:{{ .Values.image.tag }}" #DIT "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:${GIT_COMMIT}"
           name: {{ .Values.name }} #i27-eureka-dev

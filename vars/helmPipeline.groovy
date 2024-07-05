@@ -63,6 +63,9 @@ def call(Map pipelineParams) {
         TST_NAMESPACE = "cart-tst-ns"
         STG_NAMESPACE = "cart-stg-ns"
         PROD_NAMESPACE = "cart-prod-ns"
+        HELM_PATH = "${WORKSPACE}/i27-shared-lib/chart" //"/jenkins/workspace/i27-eureka_main/i27-shared-lib/chart"
+        DEV_ENV = "dev"
+        TST_ENV = "tst"
     }
     stages {
         // stage ('Authentication'){
@@ -73,6 +76,15 @@ def call(Map pipelineParams) {
         //     }
         //    }
         // }
+        stage ('Checkout')
+        {
+            steps {
+                println("Checkout: cloning the repo for i27Shared Library ******************")
+                script {
+                    k8s.gitClone()
+                }
+            }
+        }
         stage ('Build') {
             when {
                 anyOf {
@@ -150,10 +162,10 @@ def call(Map pipelineParams) {
                     imageValidation().call()
                     def docker_image = "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:${GIT_COMMIT}"
                     echo "Kubernetes deployment started!!"
-                    // k8s.auth_login("${env.GKE_DEV_CLUSTER_NAME}","${env.GKE_DEV_ZONE}","${env.GKE_DEV_PROJECT}")
+                    k8s.auth_login("${env.GKE_DEV_CLUSTER_NAME}","${env.GKE_DEV_ZONE}","${env.GKE_DEV_PROJECT}")
                     // k8s.k8sdeploy("${env.K8S_DEV_FILE}", "${env.DEV_NAMESPACE}", docker_image)
                     // dockerDeploy('dev','5761', '8761').call()
-                    k8s.k8sHelmChartDeploy()
+                    k8s.k8sHelmChartDeploy("${env.APPLICATION_NAME}","${env.DEV_ENV}","${env.HELM_PATH}", "${GIT_COMMIT"}")
                     echo "deployed to dev environment!!"
                 }
              }
@@ -242,6 +254,11 @@ def call(Map pipelineParams) {
                     echo "deployed to Prod environment!!"
                 }
              }
+        }
+        stage ('Clean') {
+            steps {
+                cleanWs()
+            }
         }
     }
     }

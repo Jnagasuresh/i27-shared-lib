@@ -27,11 +27,23 @@ class K8s {
     }
 
     // Helm Deployment
-    def k8sHelmChartDeploy(){
+    def k8sHelmChartDeploy(appName, env, helmChartPath, imageTag){
         jenkins.sh """
         echo "********************** Executing Helm Groovy Method*****************"
         sudo helm version
+        echo "********************** Installing the chart*****************"
+        sudo helm install ${appName}-${env}-chart ${helmChartPath} -f ./.cicd/k8s/values_${env}.yaml --set image.tag= ${imageTag} ${helmChartPath}
         """
     }
+
+    // Clone the repo
+    def gitClone() {
+        jenkins.sh """
+        echo "*************** Executing Git Clone Groovy Method *******************"
+        sudo git clone -b main https://github.com/Jnagasuresh/i27-shared-lib.git
+        echo "*************** Listing the files after clone *******************"
+        """
+    }
+
 
 }

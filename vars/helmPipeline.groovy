@@ -67,8 +67,8 @@ def call(Map pipelineParams) {
         HELM_PATH = "${WORKSPACE}/i27-shared-lib/chart" //"/jenkins/workspace/i27-eureka_main/i27-shared-lib/chart"
         DEV_ENV = "dev"
         TST_ENV = "tst"
-        STG_ENV = "tst"
-        PROD_ENV = "tst"
+        STG_ENV = "stg"
+        PROD_ENV = "prod"
     }
     stages {
         // stage ('Authentication'){
@@ -166,7 +166,7 @@ def call(Map pipelineParams) {
                 script {
                     imageValidation().call()
                     def docker_image = "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:${GIT_COMMIT}"
-                    echo "Kubernetes deployment started!!"
+                    echo "Kubernetes deployment started!! ${env.DEV_ENV}"
                     k8s.auth_login("${env.GKE_DEV_CLUSTER_NAME}","${env.GKE_DEV_ZONE}","${env.GKE_DEV_PROJECT}")
                     // k8s.k8sdeploy("${env.K8S_DEV_FILE}", "${env.DEV_NAMESPACE}", docker_image)
                     // dockerDeploy('dev','5761', '8761').call()
@@ -192,7 +192,7 @@ def call(Map pipelineParams) {
                     // echo "deployed to test environment successfull!!"
                      imageValidation().call()
                     def docker_image = "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:${GIT_COMMIT}"
-                    echo "Kubernetes deployment started!!"
+                    echo "Kubernetes deployment started!!: ${env.TST_ENV}"
                     k8s.auth_login("${env.GKE_DEV_CLUSTER_NAME}","${env.GKE_DEV_ZONE}","${env.GKE_DEV_PROJECT}")
                     //k8s.k8sdeploy("${env.K8S_TST_FILE}", "${env.TST_NAMESPACE}", docker_image)
                     k8s.k8sHelmChartDeploy("${env.APPLICATION_NAME}","${env.TST_ENV}","${env.HELM_PATH}", "${GIT_COMMIT}")
@@ -218,7 +218,7 @@ def call(Map pipelineParams) {
                     // echo "deployed to stage environment successfull!!"
                      imageValidation().call()
                     def docker_image = "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:${GIT_COMMIT}"
-                    echo "Kubernetes deployment started!!"
+                    echo "Kubernetes deployment started!! ${env.STG_ENV}"
                     k8s.auth_login("${env.GKE_DEV_CLUSTER_NAME}","${env.GKE_DEV_ZONE}","${env.GKE_DEV_PROJECT}")
                     //k8s.k8sdeploy("${env.K8S_STG_FILE}", "${env.STG_NAMESPACE}", docker_image)
                     k8s.k8sHelmChartDeploy("${env.APPLICATION_NAME}","${env.STG_ENV}","${env.HELM_PATH}", "${GIT_COMMIT}")
@@ -252,7 +252,7 @@ def call(Map pipelineParams) {
                     // imageValidation().call()
                     // dockerDeploy('stage','8761', '8761').call()
                     // echo "deployed to Prod environment successfull!!"
-                     imageValidation().call()
+                    imageValidation().call()
                     def docker_image = "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:${GIT_COMMIT}"
                     echo "Kubernetes deployment started!!"
                     k8s.auth_login("${env.GKE_DEV_CLUSTER_NAME}","${env.GKE_DEV_ZONE}","${env.GKE_DEV_PROJECT}")

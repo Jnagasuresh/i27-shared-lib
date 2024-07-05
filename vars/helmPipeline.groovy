@@ -97,6 +97,7 @@ def call(Map pipelineParams) {
             steps {
                 script {
                     // buildApp().call()
+                    k8s.gitClone()
                     docker.buildApp("${env.APPLICATION_NAME}")
                 }
             }

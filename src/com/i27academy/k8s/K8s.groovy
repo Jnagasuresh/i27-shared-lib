@@ -17,7 +17,7 @@ class K8s {
         """
     }
 
-    // Kubernetes Deployment
+    //  Kubernetes Deployment
     def k8sdeploy(fileName, namespace, docker_image){
         jenkins.sh """
         echo "Executing K8s deploy method"
